@@ -1,0 +1,25 @@
+{
+    "name": "triplepoint/groundhog_router",
+    
+    "description": "Simple standalone request router library.",
+    
+    "license": "MIT",
+    
+    "authors": [
+        {
+            "name": "Jonathan Hanson",
+            "email": "jonathan@jonathan-hanson.org",
+            "homepage": "http://www.jonathan-hanson.org/",
+            "role": "Developer"
+        }
+    ],
+    
+    "support": {
+    	"email": "jonathan@jonathan-hanson.org"
+    },
+    
+    "require": {
+        "php": ">=5.4.0",
+    }
+    
+}
