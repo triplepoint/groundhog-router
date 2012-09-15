@@ -1,7 +1,6 @@
 <?php
 namespace Groundhog\Router;
 
-use \Groundhog\HttpException;
 use \Exception;
 
 /**

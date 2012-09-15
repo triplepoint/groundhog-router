@@ -3,7 +3,6 @@ namespace Groundhog\Router;
 
 use \SQLite3;
 use \Exception;
-use \Groundhog\HttpException;
 
 class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 {

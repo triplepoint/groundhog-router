@@ -2,7 +2,6 @@
 namespace Groundhog\Router;
 
 use \Exception;
-use \Groundhog\HttpException;
 
 /**
  * This class encapsulates the routing table.

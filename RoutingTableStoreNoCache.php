@@ -1,8 +1,6 @@
 <?php
 namespace Groundhog\Router;
 
-use \Groundhog\HttpException;
-
 /**
  * This class encapsulates the routing table.
  *
