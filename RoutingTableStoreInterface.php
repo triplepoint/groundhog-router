@@ -51,8 +51,8 @@ interface RoutingTableStoreInterface
      *
      * @param RequestInterface $request
      *
-     * @throws HttpException if the route is not found
-     * @throws HttpException if the route is found but the HTTP method is not supported
+     * @throws Exception if the route is not found
+     * @throws Exception if the route is found but the HTTP method is not supported
      *
      * @return Route
      */
