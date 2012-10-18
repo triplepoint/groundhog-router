@@ -169,5 +169,6 @@ pip-log.txt
 
 # Custom Ignores
 ## Ignore the Composer-managed stuff
+/composer.phar
 /composer.lock
 /vendor/

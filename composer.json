@@ -38,5 +38,11 @@
     	"ext-apc": "Allows the use of the APC Routing Table store."
     },
     
+    "autoload": {
+        "psr-0": {
+        	"Groundhog\\Router\\": ""
+        }
+    },
+    
     "target-dir": "Groundhog/Router"
 }
