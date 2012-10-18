@@ -1,6 +1,6 @@
 # Groundhog Router
 
-[![Build Status](https://travis-ci.org/triplepoint/groundhog-router.png)](https://travis-ci.org/triplepoint/groundhog-router.png)
+[![Build Status](https://travis-ci.org/triplepoint/groundhog-router.png?branch=master)](https://travis-ci.org/triplepoint/groundhog-router)
 
 ## Introduction
 This library provides a basic router which can interpret incoming requests, determine to what class the request maps, and return the action handler class ready for execution.
