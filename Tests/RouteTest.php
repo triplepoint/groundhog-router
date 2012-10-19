@@ -23,5 +23,4 @@ class RouteTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, $object->getRouteType());
     }
-
 }

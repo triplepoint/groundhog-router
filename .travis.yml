@@ -6,3 +6,7 @@ php:
 
 before_script:
     - composer install
+    - pyrus install pear/PHP_CodeSniffer
+
+script:
+    - phpcs --ignore=*/Tests/*,*/vendor/* --standard=PSR2 -n --encoding=UTF-8 --report=summary 

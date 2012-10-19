@@ -31,12 +31,20 @@
     },
     
     "require-dev": {
-        "phpunit/phpunit": "3.7.3"
+        "phpunit/phpunit": "3.7.8",
+        "pear-pear/PHP_CodeSniffer": "1.4.0"
     },
     
     "suggest" : {
     	"ext-apc": "Allows the use of the APC Routing Table store."
     },
+    
+    "repositories": [
+         {
+             "type": "pear",
+             "url": "http://pear.php.net"
+         }
+     ],
     
     "autoload": {
         "psr-0": {
