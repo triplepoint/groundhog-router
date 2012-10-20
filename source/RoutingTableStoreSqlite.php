@@ -44,31 +44,34 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
         return ( !is_file($this->routing_table_file) || (time() - filemtime($this->routing_table_file)) > $this->getStoreTtl() );
     }
 
-    public function saveRoutingTable( array $routes )
+    public function saveRoutingTable(array $routes)
     {
         // Attempt to create the routing table sqlite database table, if it doesn't already exist
         $db = new SQLite3($this->routing_table_file);
         $db->exec('BEGIN;');
 
-        try{ @$db->exec('CREATE TABLE routing_table (
-            route_type integer,
-            route_http_method text,
-            route_regex text,
-            class_name text,
-            parameter_order text,
-            raw_route_string text);');
-        } catch( \Exception $e ) {
+        try {
+            @$db->exec('CREATE TABLE routing_table (
+                route_type integer,
+                route_http_method text,
+                route_regex text,
+                class_name text,
+                parameter_order text,
+                raw_route_string text);'
+            );
+        } catch (\Exception $e) {
         };
 
         // Remove all the auto-generated routes
-        if( ! $db->exec("DELETE FROM routing_table;") ) {
+        if ( ! $db->exec("DELETE FROM routing_table;") ) {
             throw $this->exceptor->exception("Trouble truncating routing table: ".$db->lastErrorMsg());
         }
 
         // For each detected route, determine if it exists already in the database, and if not, save it
         foreach ($routes as $route) {
 
-            $result = $db->query('SELECT * FROM routing_table WHERE '.
+            $result = $db->query(
+                'SELECT * FROM routing_table WHERE '.
                 "route_http_method='".$db->escapeString($route->getRouteHttpMethod()).
                 "' AND route_regex='".$db->escapeString($route->getRouteRegex()).
                 "' AND route_type='".$db->escapeString($route->getRouteType())."';"
@@ -78,7 +81,8 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
                     "This handler ({$route->getClassName()}) cannot handle this route ".
                     "({$route->getRouteHttpMethod()} {$route->getRawRouteString()}) because that route's regex ".
                     "({$route->getRouteRegex()}) is already handled by another handler ".
-                    "({$arr_result['class_name']})");
+                    "({$arr_result['class_name']})"
+                );
             }
 
             $route_values = array(

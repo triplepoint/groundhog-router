@@ -32,7 +32,7 @@ interface RoutingTableStoreInterface
      *
      * @return void
      */
-    public function saveRoutingTable( array $routes );
+    public function saveRoutingTable(array $routes);
 
     /**
      * Fetch the routing table as an array of Routes.
@@ -56,5 +56,5 @@ interface RoutingTableStoreInterface
      *
      * @return Route
      */
-    public function findMatchingRoute( RequestInterface $request );
+    public function findMatchingRoute(RequestInterface $request);
 }

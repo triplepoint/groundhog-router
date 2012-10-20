@@ -35,7 +35,7 @@ class RoutingTableStoreNoCache implements RoutingTableStoreInterface
         return true;
     }
 
-    public function saveRoutingTable( array $routes )
+    public function saveRoutingTable(array $routes)
     {
         $this->stored_routing_table = $routes;
     }
@@ -46,7 +46,7 @@ class RoutingTableStoreNoCache implements RoutingTableStoreInterface
 
         foreach ($this->stored_routing_table as $route) {
             $is_search_match = null;
-            foreach( explode(' ', $query_string) as $query_fragment ) {
+            foreach (explode(' ', $query_string) as $query_fragment) {
                 if ( preg_match('/.*'.$query_fragment.'.*/i', $route->getRawRouteString()) ||
                      preg_match('/.*'.$query_fragment.'.*/i', $route->getClassName()) ||
                      preg_match('/.*'.$query_fragment.'.*/i', $route->getRouteHttpMethod())
@@ -72,9 +72,9 @@ class RoutingTableStoreNoCache implements RoutingTableStoreInterface
 
         $arr_allowed_methods = array();
 
-        foreach ( $this->stored_routing_table as $route ) {
+        foreach ($this->stored_routing_table as $route) {
 
-            foreach( $arr_match_types as $route_type => $route_match ) {
+            foreach ($arr_match_types as $route_type => $route_match) {
                 if ( $route->getRouteHttpMethod() == $request->getMethod() && $route->getRouteType() == $route_type && preg_match($route->getRouteRegex(), $route_match)) {
                     return $route;
 
@@ -85,13 +85,13 @@ class RoutingTableStoreNoCache implements RoutingTableStoreInterface
         }
 
         // No match found
-        if( !empty($arr_allowed_methods) ) {
+        if ( !empty($arr_allowed_methods) ) {
             // If there's a match on this URL, just not for the given HTTP method, return a 405
-            throw $this->exceptor->httpException( null, 405, array('Allow' => implode(', ', $arr_allowed_methods) ));
+            throw $this->exceptor->httpException(null, 405, array('Allow' => implode(', ', $arr_allowed_methods)));
 
         } else {
             // Else this URL has no resource at all.  Return a 404
-            throw $this->exceptor->httpException( null, 404);
+            throw $this->exceptor->httpException(null, 404);
         }
     }
 }

@@ -44,7 +44,7 @@ class Router
      */
     public function getRouteHandler()
     {
-        if( $this->routing_table->storeNeedsRebuilding() ) {
+        if ($this->routing_table->storeNeedsRebuilding()) {
             $routes = $this->route_parser->buildRouteTable();
             $this->routing_table->saveRoutingTable($routes);
         }

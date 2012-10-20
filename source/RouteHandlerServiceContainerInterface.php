@@ -4,5 +4,4 @@ namespace Groundhog\Router;
 
 interface RouteHandlerServiceContainerInterface
 {
-
 }

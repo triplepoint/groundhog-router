@@ -174,18 +174,18 @@ class Route
      *
      * @return array
      */
-    public function extractParametersFromRequest( RequestInterface $request )
+    public function extractParametersFromRequest(RequestInterface $request)
     {
         $request_types = self::getPathsByRouteType($request);
         $request_string = $request_types[$this->route_type];
 
         // Return the extracted results
-        preg_match_all( $this->route_regex, $request_string, $matches, PREG_SET_ORDER);
+        preg_match_all($this->route_regex, $request_string, $matches, PREG_SET_ORDER);
         $result = $matches[0];
         array_shift($result);
 
         // If the result has content
-        if( !empty($result) ) {
+        if ( !empty($result) ) {
             // Create a new array using the route parameter order as the keys and the request values as the values
             $result = array_combine(unserialize($this->parameter_order), array_values($result));
 
@@ -206,7 +206,7 @@ class Route
      *
      * @return array
      */
-    static public function getPathsByRouteType( RequestInterface $request )
+    public static function getPathsByRouteType(RequestInterface $request)
     {
         $entire_uri_without_queries = (strpos($request->getUri(), '?') !== false) ?
             substr($request->getUri(), 0, strpos($request->getUri(), '?')) :

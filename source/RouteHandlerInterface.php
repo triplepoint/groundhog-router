@@ -26,7 +26,7 @@ interface RouteHandlerInterface
      *
      *  @return RouteHandlerServiceContainerInterface|null
      */
-    static public function getDefaultServiceContainer();
+    public static function getDefaultServiceContainer();
 
     /**
      * The constructor accepts the service container, and it's up to the route handler
@@ -36,7 +36,7 @@ interface RouteHandlerInterface
      *
      * @return void
      */
-    public function __construct( RouteHandlerServiceContainerInterface $service_container = null );
+    public function __construct(RouteHandlerServiceContainerInterface $service_container = null);
 
     /**
      * Set the call parameters (if any) that describe the request the be handled

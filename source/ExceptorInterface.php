@@ -32,5 +32,5 @@ interface ExceptorInterface
      *
      * @return \Exception the generated exception
      */
-    public function httpException( $private_message = '', $http_status_code = 0, array $additional_headers = array(), $public_message = null, \Exception $previous = null );
+    public function httpException($private_message = '', $http_status_code = 0, array $additional_headers = array(), $public_message = null, \Exception $previous = null);
 }
