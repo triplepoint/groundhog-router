@@ -1,9 +1,9 @@
 {
-    "name": "triplepoint/groundhog-router",
+    "name":        "triplepoint/groundhog-router",
     
     "description": "Simple standalone request router library.",
     
-    "type": "library",
+    "type":        "library",
     
     "keywords": [
          "routing"
@@ -13,15 +13,15 @@
     
     "authors": [
         {
-            "name": "Jonathan Hanson",
-            "email": "jonathan@jonathan-hanson.org",
+            "name":     "Jonathan Hanson",
+            "email":    "jonathan@jonathan-hanson.org",
             "homepage": "http://www.jonathan-hanson.org/",
-            "role": "Developer"
+            "role":     "Developer"
         }
     ],
     
     "support": {
-    	"email": "jonathan@jonathan-hanson.org",
+    	"email":  "jonathan@jonathan-hanson.org",
     	"issues": "https://github.com/triplepoint/groundhog-router/issues",
     	"source": "https://github.com/triplepoint/groundhog-router"
     },
@@ -31,7 +31,7 @@
     },
     
     "require-dev": {
-        "phpunit/phpunit": "3.7.8",
+        "phpunit/phpunit":           "3.7.8",
         "pear-pear/PHP_CodeSniffer": "1.4.0"
     },
     
@@ -42,15 +42,15 @@
     "repositories": [
          {
              "type": "pear",
-             "url": "http://pear.php.net"
+             "url":  "http://pear.php.net"
          }
      ],
     
     "autoload": {
         "psr-0": {
-        	"Groundhog\\Router\\": ""
+        	"Groundhog\\Router": "source"
         }
     },
     
-    "target-dir": "Groundhog/Router"
+    "target-dir": "Groundhog/Router/source"
 }
