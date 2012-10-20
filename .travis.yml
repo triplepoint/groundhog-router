@@ -10,5 +10,6 @@ before_script:
     - phpenv rehash
 
 script:
+    - phpunit
     - phpcs --ignore=vendor/* --standard=PSR2 -n --encoding=UTF-8 --report=summary ./
     
