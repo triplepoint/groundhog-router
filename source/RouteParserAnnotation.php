@@ -51,19 +51,19 @@ class RouteParserAnnotation implements RouteParserInterface
 
         $routing_table = array();
 
-        foreach ( $route_handlers as $class_name ) {
+        foreach ($route_handlers as $class_name) {
 
             $class_reflect = new \ReflectionClass($class_name);
 
             $execute_method_reflect = $class_reflect->getMethod('execute');
 
-            foreach ( $this->extractRoutesFromMethodHeader($execute_method_reflect->getDocComment()) as $arr_method_route ) {
+            foreach ($this->extractRoutesFromMethodHeader($execute_method_reflect->getDocComment()) as $arr_method_route) {
 
                 // Trim off any trailing slashes (TODO in the future, this will likely be modified to allow distinctions between with-trailing-slash and without)
                 $arr_method_route['request_route'] = rtrim($arr_method_route['request_route'], '/');
 
                 // Generate a regular expression that would match this extracted route
-                list($route_regex, $arr_parameter_order) = $this->generateRegexFromRoute( $arr_method_route['request_route'] );
+                list($route_regex, $arr_parameter_order) = $this->generateRegexFromRoute($arr_method_route['request_route']);
 
                 $routing_table[] = new Route(
                     $this->getRouteType($arr_method_route['request_route']),
@@ -90,16 +90,16 @@ class RouteParserAnnotation implements RouteParserInterface
      *
      * @return void
      */
-    private function includeAllPhpFiles( $root_path )
+    private function includeAllPhpFiles($root_path)
     {
         // Loop through the target path and include any class files discovered
-        foreach( new \DirectoryIterator($root_path) as $file_in_dir ) {
+        foreach (new \DirectoryIterator($root_path) as $file_in_dir) {
 
             if ( $file_in_dir->isDot() ) {
                 continue;
 
             } else if ( $file_in_dir->isDir() ) {
-                $this->includeAllPhpFiles( $file_in_dir->getPathName() );
+                $this->includeAllPhpFiles($file_in_dir->getPathName());
 
             } else if ( $file_in_dir->getExtension() == 'php' ) {
                 include_once $file_in_dir->getPathName();
@@ -119,8 +119,8 @@ class RouteParserAnnotation implements RouteParserInterface
         $declared_classes = get_declared_classes();
 
         $result = array();
-        foreach ( $declared_classes as $class_name ) {
-            if( !($reflect = new \ReflectionClass($class_name)) ) {
+        foreach ($declared_classes as $class_name) {
+            if ( !($reflect = new \ReflectionClass($class_name)) ) {
                 continue;
             }
 
@@ -151,18 +151,18 @@ class RouteParserAnnotation implements RouteParserInterface
      *
      * @return array the method's routes, each of the form <code>array('request_method'=>X, 'request_route'=>Y)</code>
      */
-    private function extractRoutesFromMethodHeader( $method_comment )
+    private function extractRoutesFromMethodHeader($method_comment)
     {
         // If the method has a !NoRoute annotation then its marked for being skipped.  Return an empty array.
-        if ( preg_match( '/\!NoRoute/i', $method_comment ) ) {
+        if ( preg_match('/\!NoRoute/i', $method_comment) ) {
             return array();
         }
 
-        preg_match_all( '/  \!HttpRoute  [ \t]+  (?P<request_method>[A-Za-z]+)  [ \t]*  (?P<request_route>[^ ]*)  [ \t]*  $/imx', $method_comment, $regex_routes, PREG_SET_ORDER );
+        preg_match_all('/  \!HttpRoute  [ \t]+  (?P<request_method>[A-Za-z]+)  [ \t]*  (?P<request_route>[^ ]*)  [ \t]*  $/imx', $method_comment, $regex_routes, PREG_SET_ORDER);
 
         $arr_method_routes = array();
-        if( !empty($regex_routes) ) {
-            foreach ( $regex_routes as $match ) {
+        if ( !empty($regex_routes) ) {
+            foreach ($regex_routes as $match) {
                 $arr_method_routes[] = array(
                     'request_method' => $match['request_method'],
                     'request_route'  => $match['request_route']
@@ -186,24 +186,24 @@ class RouteParserAnnotation implements RouteParserInterface
      *
      * @return integer the route type
      */
-    private function getRouteType( $route_string )
+    private function getRouteType($route_string)
     {
         // Does the route have wildcards?
-        $has_wildcards = (boolean) preg_match( '/[#$]{1}([0-9])+/', $route_string);
+        $has_wildcards = (boolean) preg_match('/[#$]{1}([0-9])+/', $route_string);
 
-        // Specific domain, unspecified protocol, absolute path info
-        if( substr($route_string, 0, 2) == '//' ) {
+        if ( substr($route_string, 0, 2) == '//' ) {
+            // Specific domain, unspecified protocol, absolute path info
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_DOMAIN_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_DOMAIN;
-        }
-        // Absolute path, relative to the domain root
-        else if( substr($route_string, 0, 1) == '/' ) {
+
+        } else if ( substr($route_string, 0, 1) == '/' ) {
+            // Absolute path, relative to the domain root
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_PATH_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_PATH;
-        }
-        // Specific domain, specific protocol, absolute paths
-        else if( strpos($route_string, '://') !== false ) {
+
+        } else if ( strpos($route_string, '://') !== false ) {
+            // Specific domain, specific protocol, absolute paths
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL;
-        }
-        else {
+
+        } else {
             throw $this->exceptor->exception('Given route string ('.$route_string.') does not match any of the allowed route types.');
         }
 
@@ -221,15 +221,15 @@ class RouteParserAnnotation implements RouteParserInterface
      *
      * @return array contains the regular expression and the array of order of the parameters
      */
-    private function generateRegexFromRoute( $route_string )
+    private function generateRegexFromRoute($route_string)
     {
         // Extract the order of the parameter tags in the route (for instance, /some/#2/route/#3/#1 would have array(2,3,1)  )
-        preg_match_all( '/[#$]{1}([0-9])+/', $route_string, $arr_matches, PREG_PATTERN_ORDER);
+        preg_match_all('/[#$]{1}([0-9])+/', $route_string, $arr_matches, PREG_PATTERN_ORDER);
         $arr_parameter_order = $arr_matches[1];
 
         // Build an appropriate regex, by replacing the '$1' or '#4' bits of the route with the appropriate character classes
         $route_string = str_replace('\$', '$', preg_quote($route_string, '/')); // Fix the unwanted escaping of $ in the route
-        $regex = preg_replace(array('/[$]{1}[0-9]+/', '/[#]{1}[0-9]+/'), array('([^#?\/\\\\\]+)', '([0-9]+)'), $route_string );
+        $regex = preg_replace(array('/[$]{1}[0-9]+/', '/[#]{1}[0-9]+/'), array('([^#?\/\\\\\]+)', '([0-9]+)'), $route_string);
 
         // Append the "optional /" regex, if the regex isn't just a slash
         // TODO this assumption about trailing slashes may not be a permenant thing
