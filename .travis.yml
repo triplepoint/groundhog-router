@@ -7,7 +7,7 @@ php:
   - 5.4
 
 before_script:
-    - composer install
+    - composer autoload-dump
 #    - pyrus install pear/PHP_CodeSniffer
 #    - phpenv rehash
 
