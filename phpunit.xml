@@ -11,9 +11,15 @@
          syntaxCheck="false"
          bootstrap="Tests/bootstrap.php"
 >
-    <testsuites>
-        <testsuite name="Groundhog Router Test Suite">
-            <directory>./Tests/</directory>
-        </testsuite>
-    </testsuites>
+
+    <!-- Code Coverage inclusion: Everything in source, nothing in vendor -->
+    <filter>
+        <whitelist>
+            <directory suffix=".php">source</directory>
+        </whitelist>
+        <blacklist>
+            <directory suffix=".php">vendor</directory>
+        </blacklist>
+    </filter>
+
 </phpunit>
