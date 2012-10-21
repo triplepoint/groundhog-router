@@ -21,10 +21,20 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
     private $exceptor;
 
     /**
+     * The time to live for cached routing tables
      *
-     * @param string $routing_table_file the path to the sqlite database file
+     * @var integer
      */
-    public function __construct($routing_table_file, ExceptorInterface $exceptor)
+    private $ttl;
+
+    /**
+     *
+     * @param string            $routing_table_file the path to the sqlite database file
+     * @param ExceptorInterface $exceptor           The Exception building this object will use
+     * @param integer           $ttl                The cached routing table's time to live
+     *
+     */
+    public function __construct($routing_table_file, ExceptorInterface $exceptor, $ttl = 28800)
     {
         if (!extension_loaded('sqlite3')) {
             throw $this->exceptor->exception('The SQLite3 extension is required for this Routing Table Store to function.');
@@ -32,11 +42,12 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 
         $this->routing_table_file = $routing_table_file;
         $this->exceptor           = $exceptor;
+        $this->ttl                = $ttl;
     }
 
     public function getStoreTtl()
     {
-        return 28800; // 8 hours
+        return $this->ttl;
     }
 
     public function storeNeedsRebuilding()

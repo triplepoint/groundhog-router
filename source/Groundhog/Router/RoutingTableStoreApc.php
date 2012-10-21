@@ -25,24 +25,35 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
     private $exceptor;
 
     /**
+     * The time to live for cached routing tables
+     *
+     * @var integer
+     */
+    private $ttl;
+
+    /**
      * Require that the APC extension be present before this Table Store can be used.
+     *
+     * @param ExceptorInterface $exceptor The Exception building this object will use
+     * @param integer           $ttl      The cached routing table's time to live
      *
      * @throws Exception when the APC extension isn't loaded.
      *
      * @return void
      */
-    public function __construct(ExceptorInterface $exceptor)
+    public function __construct(ExceptorInterface $exceptor, $ttl = 28800)
     {
         if (!extension_loaded('apc')) {
             throw $this->exceptor->exception('The APC extension is required for this Routing Table Store to function.');
         }
 
         $this->exceptor = $exceptor;
+        $this->ttl      = $ttl;
     }
 
     public function getStoreTtl()
     {
-        return 28800; // 8 hours
+        return $this->ttl;
     }
 
     public function storeNeedsRebuilding()
