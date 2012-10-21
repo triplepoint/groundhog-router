@@ -155,7 +155,9 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
         // Create a regular expression function in SQLite that determines whether the first parameter matches the regex in the second parameter
         $db->createFunction(
             'IS_REGEX_MATCH',
-            function ($str, $regex) { return preg_match($regex, $str) ?  1 : 0;},
+            function ($str, $regex) {
+                return preg_match($regex, $str) ?  1 : 0;
+            },
             2
         );
 
