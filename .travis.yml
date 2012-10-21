@@ -12,6 +12,6 @@ before_script:
 #    - phpenv rehash
 
 script:
-    - phpunit -c phpunit.xml --coverage-text Tests
+    - phpunit -c phpunit.xml --coverage-text tests/
 #    - phpcs --ignore=vendor/* --standard=PSR2 -n --encoding=UTF-8 --report=summary ./
     

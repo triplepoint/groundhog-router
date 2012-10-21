@@ -47,6 +47,9 @@
      ],
     
     "autoload": {
-    	"classmap": ["source"]
+        "psr-0": {
+            "Groundhog\\Router":        "source/",
+            "Groundhog\\Router\\Tests": "tests"
+    	}
     }
 }
