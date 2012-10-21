@@ -48,8 +48,8 @@
     
     "autoload": {
         "psr-0": {
-            "Groundhog\\Router":        "source/",
-            "Groundhog\\Router\\Tests": "tests"
+        	"Groundhog\\Router\\Tests": "tests/",
+        	"Groundhog\\Router":        "source/"
     	}
     }
 }
