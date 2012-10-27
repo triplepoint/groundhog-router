@@ -3,7 +3,7 @@
 
  <description>The Groundhog coding standard.</description>
 
- <exclude-pattern>vendor/*</exclude-pattern>
+ <exclude-pattern>*/vendor/*</exclude-pattern>
 
  <rule ref="PSR2"/>
  
