@@ -55,7 +55,8 @@ class Router
         $call_parameters = $route->extractParametersFromRequest($this->request);
 
         $route_handler_service_container = $route_handler_class_name::getDefaultServiceContainer();
-        $route_handler = new $route_handler_class_name($route_handler_service_container);
+        $route_handler = new $route_handler_class_name();
+        $route_handler->processServiceContainer($route_handler_service_container);
         $route_handler->setCallParameters($call_parameters);
 
         return $route_handler;
