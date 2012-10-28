@@ -26,7 +26,7 @@ class Exception extends \Exception
      */
     public function __construct($message = '', $context = array(), $code = 0, \Exception $previous = null)
     {
-
+        $this->context = $context;
     }
 
     /**
