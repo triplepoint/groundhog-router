@@ -26,7 +26,7 @@ interface RoutingTableStoreInterface
      *
      * @param Groundhog\Router\Routes[] $routes an array of Route objects
      *
-     * @throws Exception if something goes wrong
+     * @throws Exception if something goes wrong during the save
      *
      * @return void
      */
@@ -49,8 +49,8 @@ interface RoutingTableStoreInterface
      *
      * @param RequestInterface $request
      *
-     * @throws Exception if the route is not found
-     * @throws Exception if the route is found but the HTTP method is not supported
+     * @throws ExceptionNotFound         if the route is not found
+     * @throws ExceptionMethodNotAllowed if the route is found but the request method is not supported
      *
      * @return Route
      */

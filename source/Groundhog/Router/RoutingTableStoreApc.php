@@ -111,22 +111,11 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
         // No match found
         if ( !empty($arr_allowed_methods) ) {
             // If there's a match on this URL, just not for the given HTTP method, return a 405
-            throw new Exception(
-                '',
-                array(
-                    'http_status_code' => 405,
-                    'headers'          => array('Allow' => implode(', ', $arr_allowed_methods))
-                )
-            );
+            throw new ExceptionMethodNotAllowed($arr_allowed_methods);
 
         } else {
             // Else this URL has no resource at all.  Return a 404
-            throw new Exception(
-                '',
-                array(
-                    'http_status_code' => 404
-                )
-            );
+            throw new ExceptionNotFound();
         }
     }
 }

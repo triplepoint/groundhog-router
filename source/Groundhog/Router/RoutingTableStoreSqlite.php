@@ -21,9 +21,12 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 
     /**
      *
-     * @param string            $routing_table_file the path to the sqlite database file
-     * @param integer           $ttl                The cached routing table's time to live
+     * @param string  $routing_table_file the path to the sqlite database file
+     * @param integer $ttl                The cached routing table's time to live
      *
+     * @throws Exception when the SQlite3 extension isn't loaded
+     *
+     * @return void
      */
     public function __construct($routing_table_file, $ttl = 28800)
     {
@@ -51,18 +54,15 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
         $db = new SQLite3($this->routing_table_file);
         $db->exec('BEGIN;');
 
-        try {
-            @$db->exec(
-                'CREATE TABLE routing_table (
-                route_type integer,
-                route_http_method text,
-                route_regex text,
-                class_name text,
-                parameter_order text,
-                raw_route_string text);'
-            );
-        } catch (\Exception $e) {
-        };
+        @$db->exec(
+            'CREATE TABLE routing_table (
+            route_type integer,
+            route_http_method text,
+            route_regex text,
+            class_name text,
+            parameter_order text,
+            raw_route_string text);'
+        );
 
         // Remove all the auto-generated routes
         if ( ! $db->exec("DELETE FROM routing_table;") ) {
@@ -192,22 +192,11 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 
             if ( !empty($arr_allowed_methods) ) {
                 // If there's a match on this URL, just not for the given HTTP method, return a 405
-                throw new Exception(
-                    '',
-                    array(
-                        'http_status_code' => 405,
-                        'headers'          => array('Allow' => implode(', ', $arr_allowed_methods))
-                    )
-                );
+                throw new ExceptionMethodNotAllowed($arr_allowed_methods);
 
             } else {
                 // Else this URL has no resource at all.  Return a 404
-                throw new Exception(
-                    '',
-                    array(
-                        'http_status_code' => 404
-                    )
-                );
+                throw new ExceptionNotFound();
             }
         }
 
