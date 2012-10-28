@@ -13,18 +13,6 @@ class RoutingTableStoreNoCache implements RoutingTableStoreInterface
 {
     private $stored_routing_table;
 
-    /**
-     * The exception generator.
-     *
-     * @var ExceptorInterface
-     */
-    private $exceptor;
-
-    public function __construct(ExceptorInterface $exceptor)
-    {
-        $this->exceptor = $exceptor;
-    }
-
     public function getStoreTtl()
     {
         return 0;
@@ -87,11 +75,11 @@ class RoutingTableStoreNoCache implements RoutingTableStoreInterface
         // No match found
         if ( !empty($arr_allowed_methods) ) {
             // If there's a match on this URL, just not for the given HTTP method, return a 405
-            throw $this->exceptor->httpException(null, 405, array('Allow' => implode(', ', $arr_allowed_methods)));
+            throw new Exception('', 405, array('Allow' => implode(', ', $arr_allowed_methods)));
 
         } else {
             // Else this URL has no resource at all.  Return a 404
-            throw $this->exceptor->httpException(null, 404);
+            throw new Exception('', 404);
         }
     }
 }

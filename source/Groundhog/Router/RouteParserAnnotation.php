@@ -1,8 +1,6 @@
 <?php
 namespace Groundhog\Router;
 
-use \Exception;
-
 class RouteParserAnnotation implements RouteParserInterface
 {
     /**
@@ -16,21 +14,12 @@ class RouteParserAnnotation implements RouteParserInterface
     private $realm_root_path;
 
     /**
-     * The exception generator.
-     *
-     * @var ExceptorInterface
-     */
-    private $exceptor;
-
-    /**
      *
      * @param string $realm_root_path The path in which to look for the route handlers (recursive)
-     * @param ExceptorInterface $exceptor the exception generator
      */
-    public function __construct($realm_root_path, ExceptorInterface $exceptor)
+    public function __construct($realm_root_path)
     {
         $this->realm_root_path = $realm_root_path;
-        $this->exceptor        = $exceptor;
     }
 
     /**
@@ -204,7 +193,7 @@ class RouteParserAnnotation implements RouteParserInterface
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL;
 
         } else {
-            throw $this->exceptor->exception('Given route string ('.$route_string.') does not match any of the allowed route types.');
+            throw new Exception('Given route string ('.$route_string.') does not match any of the allowed route types.');
         }
 
         // Return the result

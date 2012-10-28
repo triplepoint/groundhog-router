@@ -2,7 +2,6 @@
 namespace Groundhog\Router;
 
 use \SQLite3;
-use \Exception;
 
 class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 {
@@ -14,13 +13,6 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
     private $routing_table_file;
 
     /**
-     * The exception generator.
-     *
-     * @var ExceptorInterface
-     */
-    private $exceptor;
-
-    /**
      * The time to live for cached routing tables
      *
      * @var integer
@@ -30,18 +22,16 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
     /**
      *
      * @param string            $routing_table_file the path to the sqlite database file
-     * @param ExceptorInterface $exceptor           The Exception building this object will use
      * @param integer           $ttl                The cached routing table's time to live
      *
      */
-    public function __construct($routing_table_file, ExceptorInterface $exceptor, $ttl = 28800)
+    public function __construct($routing_table_file, $ttl = 28800)
     {
         if (!extension_loaded('sqlite3')) {
-            throw $this->exceptor->exception('The SQLite3 extension is required for this Routing Table Store to function.');
+            throw new Exception('The SQLite3 extension is required for this Routing Table Store to function.');
         }
 
         $this->routing_table_file = $routing_table_file;
-        $this->exceptor           = $exceptor;
         $this->ttl                = $ttl;
     }
 
@@ -76,7 +66,7 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 
         // Remove all the auto-generated routes
         if ( ! $db->exec("DELETE FROM routing_table;") ) {
-            throw $this->exceptor->exception("Trouble truncating routing table: ".$db->lastErrorMsg());
+            throw new Exception("Trouble truncating routing table: ".$db->lastErrorMsg());
         }
 
         // For each detected route, determine if it exists already in the database, and if not, save it
@@ -89,7 +79,7 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
                 "' AND route_type='".$db->escapeString($route->getRouteType())."';"
             );
             if ( ($arr_result = $result->fetchArray(SQLITE3_ASSOC))!==false ) {
-                throw $this->exceptor->exception(
+                throw new Exception(
                     "This handler ({$route->getClassName()}) cannot handle this route ".
                     "({$route->getRouteHttpMethod()} {$route->getRawRouteString()}) because that route's regex ".
                     "({$route->getRouteRegex()}) is already handled by another handler ".
@@ -202,11 +192,11 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 
             if ( !empty($arr_allowed_methods) ) {
                 // If there's a match on this URL, just not for the given HTTP method, return a 405
-                throw $this->exceptor->httpException(null, 405, array('Allow' => implode(', ', $arr_allowed_methods) ));
+                throw new Exception('', 405, array('Allow' => implode(', ', $arr_allowed_methods) ));
 
             } else {
                 // Else this URL has no resource at all.  Return a 404
-                throw $this->exceptor->httpException(null, 404);
+                throw new Exception('', 404);
             }
         }
 

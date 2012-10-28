@@ -1,8 +1,6 @@
 <?php
 namespace Groundhog\Router;
 
-use \Exception;
-
 /**
  * This class encapsulates the routing table.
  *
@@ -18,13 +16,6 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
     const APC_CACHE_INDEX = 'GROUNDHOG_ROUTING_TABLE';
 
     /**
-     * The exception generator.
-     *
-     * @var ExceptorInterface
-     */
-    private $exceptor;
-
-    /**
      * The time to live for cached routing tables
      *
      * @var integer
@@ -34,20 +25,18 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
     /**
      * Require that the APC extension be present before this Table Store can be used.
      *
-     * @param ExceptorInterface $exceptor The Exception building this object will use
-     * @param integer           $ttl      The cached routing table's time to live
+     * @param integer $ttl The cached routing table's time to live
      *
      * @throws Exception when the APC extension isn't loaded.
      *
      * @return void
      */
-    public function __construct(ExceptorInterface $exceptor, $ttl = 28800)
+    public function __construct($ttl = 28800)
     {
         if (!extension_loaded('apc')) {
-            throw $this->exceptor->exception('The APC extension is required for this Routing Table Store to function.');
+            throw new Exception('The APC extension is required for this Routing Table Store to function.');
         }
 
-        $this->exceptor = $exceptor;
         $this->ttl      = $ttl;
     }
 
@@ -122,11 +111,11 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
         // No match found
         if ( !empty($arr_allowed_methods) ) {
             // If there's a match on this URL, just not for the given HTTP method, return a 405
-            throw $this->exceptor->httpException(null, 405, array('Allow' => implode(', ', $arr_allowed_methods)));
+            throw new Exception('', 405, array('Allow' => implode(', ', $arr_allowed_methods)));
 
         } else {
             // Else this URL has no resource at all.  Return a 404
-            throw $this->exceptor->httpException(null, 404);
+            throw new Exception('', 404);
         }
     }
 }

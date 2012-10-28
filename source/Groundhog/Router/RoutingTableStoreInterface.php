@@ -1,8 +1,6 @@
 <?php
 namespace Groundhog\Router;
 
-use \Exception;
-
 /**
  * Classes that implement this interface represent data stores
  * for caching the routing table.
