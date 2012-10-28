@@ -12,6 +12,6 @@ class ExceptionMethodNotAllowedTest extends \PHPUnit_Framework_TestCase
             array('context' => 'array')
         );
 
-        $this->assertSame( array('context' => 'array'), $exception->getAllowedMethods());
+        $this->assertSame(array('context' => 'array'), $exception->getAllowedMethods());
     }
 }
