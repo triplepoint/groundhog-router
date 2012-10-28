@@ -8,7 +8,7 @@ use Groundhog\Router\Tests\Fixtures\RouteHandler;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
-    function testRouterRebuildsRouteStoreWhenNecessary()
+    public function testRouterRebuildsRouteStoreWhenNecessary()
     {
         $route = new Route(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, 'GET', '/.*/', 'Groundhog\Router\Tests\Fixtures\RouteHandler', array(2, 1, 3), '/route/string');
 
@@ -45,7 +45,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $route_handler = $router->getRouteHandler();
     }
 
-    function testRouterDoesNotRebuildRouteStoreWhenNotNecessary()
+    public function testRouterDoesNotRebuildRouteStoreWhenNotNecessary()
     {
         $route = new Route(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, 'GET', '/.*/', 'Groundhog\Router\Tests\Fixtures\RouteHandler', array(2, 1, 3), '/route/string');
 
@@ -80,6 +80,4 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $route_handler = $router->getRouteHandler();
     }
-
-
 }
