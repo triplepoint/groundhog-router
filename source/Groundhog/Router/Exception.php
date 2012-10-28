@@ -18,13 +18,13 @@ class Exception extends \Exception
      * Adds a context array to the standard exception
      *
      * @param string     $message
-     * @param number     $code
      * @param array      $context
+     * @param number     $code
      * @param \Exception $previous
      *
      * @return void
      */
-    public function __construct($message = '', $code = 0, $context = array(), \Exception $previous = null)
+    public function __construct($message = '', $context = array(), $code = 0, \Exception $previous = null)
     {
 
     }
