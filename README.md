@@ -8,60 +8,35 @@ This library provides a basic router which can interpret incoming requests, dete
 Dependencies are kept to zero, with interfaces provided for extension points.
 
 ## Basic Structure
-There are 3 core components in this library: the Router, the Route Parser, and the Routing Table Store.  There are several secondary elements that get passed around as messages or used as helpers: RequestInterface,
-Route, and ExceptorInterface.  Finally, the end result is some object that implements RouteHandlerInterface.
+There are 3 core components in this library: the Router, a Route Parser, and a Routing Table Store.  There are several secondary elements that get passed around as messages or used as helpers: RequestInterface,
+Route, etc.  Finally, the end result is some object that implements RouteHandlerInterface.
 
 ### Router
 The Router takes in an object that represents the incoming request and which implements RequestInterface.  This request is then delegated to the Routing Table Store in an attempt to find a matching Route.  Once
 the Route is found, the Router constructs the appropriate object that implements RouteHandlerInterface, which is a Controller in typical framework terminology.
 
 ### Route Parser
-The Route Parser is any object that implements RouteParserInterface.  It's responsibility is to acquire the set of Routes to which the project can respond.  This is intentionally abstract - the included Route Parser operates
-on a set of phpdoc attributes to determine the Routes, but any strategy of route encoding could be used, with an appropriate Route Parser written to interpret it.
+A Route Parser is any object that implements RouteParserInterface.  It's responsibility is to acquire the set of Routes to which the project can respond.  This is intentionally abstract - the included RouteParserAnnotation 
+Route Parser operates on a set of phpdoc attributes to determine the Routes, but any strategy of route encoding could be used, with an appropriate Route Parser written to interpret it.
 
 ### Routing Table Store
-The Routing Table Store implements RoutingTableStoreInterface, and represents a cache in which to store the routing table once the Route Parser generates the set of Routes.  There are Routing Table Stores
+A Routing Table Store implements RoutingTableStoreInterface, and represents a cache in which to store the routing table once the Route Parser generates the set of Routes.  There are Routing Table Stores
 included to support APC and SQLite, and a special "NoCache" Store which does not cache at all and instead prompts the Route Parser to always regenerate the routing table.  Alternative storage mechanisms can
 easily be added by implmenting new objects against RoutingTableStoreInterface.
 
 ### RequestInterface
 Objects that implement the RequestInterface represent the incoming request.  There generally need only be one of these implemented, and in an attempt to remain independant of other libraries, 
-it is left to the user to implement this object.
+it is left to the user to implement this object.  The methods defined in RequestInterface are generally based on Symfony's Http-Foundation library, but anything that properly implements this interface is valid.
 
 ### Route
-This object represents a single route rule, and is used as a messenger between the Router, Route Parser, and Routing Table Store.
-
-### ExceptorInterface
-Objects that implement this interface are responsible for being delegated to for generating exceptions.  This allows the developer to swap in external exceptions.
+This object represents a single route rule, and is used as a messenger container between the Router, Route Parser, and Routing Table Store.
 
 ### RouteHandlerInterface
 These objects are the traditional controllers in MVC architecture.  In an attempt to contain dependencies while allowing for testing, these objects can announce their preferred dependency injection container
-which is then passed in to their constructors.  Also, these objects are loaded by the Router with any incoming request's call parameters that may be present.
+which is then passed back to them for consumption.  Also, these objects are loaded by the Router with any incoming request's call parameters that may be present.
 
 ## Example
 First, lets define some classes that must be implemented:
-``` php
-<?php
-// ### Exceptor.php ###
-
-namespace MyProject;
-
-use Groundhog\Router\ExceptorInterface;
-
-class Exceptor implements ExceptorInterface
-{
-    public function exception($message = '', $code = 0, \Exception $previous = null)
-    {
-        return new \Exception($message, $code, $previous);
-    }
-
-    public function httpException( $private_message = '', $http_status_code = 0, array $additional_headers = array(), $public_message = null, \Exception $previous = null )
-    {
-        return new \Exception($private_message, $http_status_code, $previous);
-    }
-}
-
-```
 
 ``` php
 <?php
@@ -131,7 +106,7 @@ class SimpleRouteHandler implements RouteHandlerInterface
         return new ServiceContainer();
     }
 
-    public function __construct( RouteHandlerServiceContainerInterface $service_container = null )
+    public function processServiceContainer(RouteHandlerServiceContainerInterface $service_container = null)
     {
         $this->some_dependency = $service_container['some_dependency'];
     }
@@ -143,7 +118,7 @@ class SimpleRouteHandler implements RouteHandlerInterface
      */
     public function setCallParameters(array $call_parameters)
     {
-        $this->some_request_parameter = $call_parameters['some_request_parameter'];
+        $this->some_request_parameter = $call_parameters[1];
     }
 
     /**
@@ -190,18 +165,15 @@ Now that these classes are defined, we can set up the router and use it.
 <?php
 // ### index.php ###
  
-// This exceptor will be a dependency which handles generating exceptions for the objects below. 
-$exceptor = new \MyProject\Exceptor();
-
 // Here we're writing a thin wrapper around Symfony's HttpFoundation\Request object to implement RequestInterface.
 $symfony_request = \Symfony\Component\HttpFoundation\Request::createFromGlobals();
 $request = new \MyProject\HttpRequestWrapper($symfony_request);
 
 // The routing Table Store we're using here is the simple "NoCache" store which provides no caching ability.  It's convenient for development.
-$routing_table_store = new \Groundhog\Router\RoutingTableStoreNoCache($exceptor);
+$routing_table_store = new \Groundhog\Router\RoutingTableStoreNoCache();
 
-// The route parser here is the one which reads annotations.  It is being asked to start in the 'library' directory to search for classes with annotations. 
-$parser = new \Groundhog\Router\RouteParserAnnotation('library', $exceptor);
+// The route parser here is the one which reads annotations.  It is being asked to start in the 'source' directory to search for classes with annotations. 
+$parser = new \Groundhog\Router\RouteParserAnnotation('source');
 
 // The Router takes in all these elements as dependencies
 $router = new \Groundhog\Router\Router();
