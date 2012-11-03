@@ -7,7 +7,7 @@ namespace Groundhog\Router;
  * exists, but the requested method is not allowed.
  * It will usually provide a set of allowed methods.
  */
-class ExceptionMethodNotAllowed extends \Exception
+class ExceptionMethodNotAllowed extends Exception
 {
     /**
      * The methods that would be allowed
