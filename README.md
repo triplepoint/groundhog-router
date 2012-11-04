@@ -3,9 +3,18 @@
 [![Build Status](https://travis-ci.org/triplepoint/groundhog-router.png?branch=master)](https://travis-ci.org/triplepoint/groundhog-router)
 
 ## Introduction
-This library provides a basic router which can interpret incoming requests, determine to what class the request maps, and return the action handler class ready for execution.
+This library provides a request router which can interpret incoming requests, determine to what class the request maps, and return the action handler class ready for execution.
 
 Dependencies are kept to zero, with interfaces provided for extension points.
+
+## Disclaimer
+While I take great care to produce code that is free of excess dependencies and short-sighted assumptions, I feel I should warn you
+that this code is *not* primarily meant for public consumption.  In other words, please understand that if you want to use this code
+in your own work you're free to do so under the provided license, but I'm not promising that the API will be stable or that the code 
+will necessarily meet your needs out of the box.
+
+So please, feel free to fork this code and adapt it to your own needs - or even better, offer comments on how I could improve the 
+general-purpose nature of the code.  But also accept that at the end of the day, this really is just a starting place for your own work. 
 
 ## Basic Structure
 There are 3 core components in this library: the Router, a Route Parser, and a Routing Table Store.  There are several secondary elements that get passed around as messages or used as helpers: RequestInterface,
