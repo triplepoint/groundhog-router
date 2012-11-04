@@ -1,5 +1,3 @@
-# phpcs won't pass due to a bug in the way it handles closures.  Skipping it for now.
-
 language: php
 
 php:
@@ -8,10 +6,10 @@ php:
 
 before_script:
     - composer dump-autoload
-#    - pyrus install pear/PHP_CodeSniffer
-#    - phpenv rehash
+    - pyrus install pear/PHP_CodeSniffer
+    - phpenv rehash
 
 script:
     - phpunit -c phpunit.xml --coverage-text tests/
-#    - phpcs --encoding=UTF-8 --extensions=php,phtml --standard=./phpcs.xml -nsp ./
+    - phpcs --encoding=UTF-8 --extensions=php,phtml --standard=./phpcs.xml -nsp ./
  
