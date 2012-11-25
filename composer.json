@@ -1,16 +1,16 @@
 {
     "name":        "triplepoint/groundhog-router",
-    
+
     "description": "Simple standalone request router library.",
-    
+
     "type":        "library",
-    
+
     "keywords": [
          "routing"
      ],
-    
+
     "license": "MIT",
-    
+
     "authors": [
         {
             "name":     "Jonathan Hanson",
@@ -19,33 +19,26 @@
             "role":     "Developer"
         }
     ],
-    
+
     "support": {
     	"email":  "jonathan@jonathan-hanson.org",
     	"issues": "https://github.com/triplepoint/groundhog-router/issues",
     	"source": "https://github.com/triplepoint/groundhog-router"
     },
-    
+
     "require": {
         "php": ">=5.3.5"
     },
-    
+
     "require-dev": {
-        "phpunit/phpunit":           "3.7.8",
-        "pear-pear/PHP_CodeSniffer": "1.4.1"
+        "phpunit/phpunit":           "3.7.9",
+        "squizlabs/php_codesniffer": "1.4.2"
     },
-    
+
     "suggest" : {
     	"ext-apc": "Allows the use of the APC Routing Table store."
     },
-    
-    "repositories": [
-         {
-             "type": "pear",
-             "url":  "http://pear.php.net"
-         }
-     ],
-    
+
     "autoload": {
         "psr-0": {
         	"Groundhog\\Router":        "source/",
