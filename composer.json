@@ -3,8 +3,6 @@
 
     "description": "Simple standalone request router library.",
 
-    "type":        "library",
-
     "keywords": [
          "routing"
      ],
