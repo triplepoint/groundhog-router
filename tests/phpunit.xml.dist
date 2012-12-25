@@ -9,7 +9,7 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="tests/bootstrap.php"
+         bootstrap="phpunit_bootstrap.php"
 >
 
     <!-- Code Coverage inclusion: Everything in source, nothing in vendor -->
