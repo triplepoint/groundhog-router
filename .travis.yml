@@ -11,3 +11,6 @@ before_script:
 script:
     - ./vendor/bin/phpunit --coverage-text --colors --verbose tests/
     - ./vendor/bin/phpcs --encoding=utf-8 --extensions=php --standard=./tests/phpcs.xml -nspv ./
+
+notifications:
+    email: false
