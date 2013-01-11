@@ -1,16 +1,16 @@
 <?php
 
-namespace Groundhog\Router\Tests;
+namespace GroundhogTest\Router;
 
 use Groundhog\Router\Router;
 use Groundhog\Router\Route;
-use Groundhog\Router\Tests\Fixtures\RouteHandler;
+use GroundhogTest\Router\Fixtures\RouteHandler;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
     public function testRouterRebuildsRouteStoreWhenNecessary()
     {
-        $route = new Route(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, 'GET', '/.*/', 'Groundhog\Router\Tests\Fixtures\RouteHandler', array(2, 1, 3), '/route/string');
+        $route = new Route(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, 'GET', '/.*/', 'GroundhogTest\Router\Fixtures\RouteHandler', array(2, 1, 3), '/route/string');
 
 
         $routing_table = $this->getMock('\Groundhog\Router\RoutingTableStoreInterface');
@@ -47,7 +47,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
     public function testRouterDoesNotRebuildRouteStoreWhenNotNecessary()
     {
-        $route = new Route(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, 'GET', '/.*/', 'Groundhog\Router\Tests\Fixtures\RouteHandler', array(2, 1, 3), '/route/string');
+        $route = new Route(Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL, 'GET', '/.*/', 'GroundhogTest\Router\Fixtures\RouteHandler', array(2, 1, 3), '/route/string');
 
 
         $routing_table = $this->getMock('\Groundhog\Router\RoutingTableStoreInterface');

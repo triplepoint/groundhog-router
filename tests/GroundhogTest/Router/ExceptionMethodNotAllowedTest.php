@@ -1,6 +1,6 @@
 <?php
 
-namespace Groundhog\Router\Tests;
+namespace GroundhogTest\Router;
 
 use Groundhog\Router\ExceptionMethodNotAllowed;
 

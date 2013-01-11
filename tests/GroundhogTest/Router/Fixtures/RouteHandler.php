@@ -1,6 +1,6 @@
 <?php
 
-namespace Groundhog\Router\Tests\Fixtures;
+namespace GroundhogTest\Router\Fixtures;
 
 use Groundhog\Router\RouteHandlerInterface;
 use Groundhog\Router\RouteHandlerServiceContainerInterface;

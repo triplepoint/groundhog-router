@@ -167,7 +167,7 @@ pip-log.txt
 
 
 
-# Custom Ignores
+# Custom Library Project Ignores
 ## Ignore the Composer-managed stuff
 /composer.phar
 /composer.lock
