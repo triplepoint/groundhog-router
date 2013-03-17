@@ -67,7 +67,7 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
         foreach ($stored_routing_table as $route) {
             $keeper = null;
             foreach (explode(' ', $query_string) as $query_fragment) {
-                if ( preg_match('/.*'.$query_fragment.'.*/i', $route->getRawRouteString()) ||
+                if (preg_match('/.*'.$query_fragment.'.*/i', $route->getRawRouteString()) ||
                      preg_match('/.*'.$query_fragment.'.*/i', $route->getClassName()) ||
                      preg_match('/.*'.$query_fragment.'.*/i', $route->getRouteHttpMethod())
                 ) {
@@ -99,17 +99,17 @@ class RoutingTableStoreApc implements RoutingTableStoreInterface
         foreach ($stored_routing_table as $route) {
 
             foreach ($arr_match_types as $route_type => $route_match) {
-                if ( $route->getRouteHttpMethod() == $request->getMethod() && $route->getRouteType() == $route_type && preg_match($route->getRouteRegex(), $route_match)) {
+                if ($route->getRouteHttpMethod() == $request->getMethod() && $route->getRouteType() == $route_type && preg_match($route->getRouteRegex(), $route_match)) {
                     return $route;
 
-                } else if ( $route->getRouteType() == $route_type && preg_match($route->getRouteRegex(), $route_match)) {
+                } else if ($route->getRouteType() == $route_type && preg_match($route->getRouteRegex(), $route_match)) {
                     $arr_allowed_methods[] = $route->getRouteHttpMethod();
                 }
             }
         }
 
         // No match found
-        if ( !empty($arr_allowed_methods) ) {
+        if (!empty($arr_allowed_methods)) {
             // If there's a match on this URL, just not for the given HTTP method, return a 405
             throw new ExceptionMethodNotAllowed($arr_allowed_methods);
 

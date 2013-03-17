@@ -84,13 +84,13 @@ class RouteParserAnnotation implements RouteParserInterface
         // Loop through the target path and include any class files discovered
         foreach (new \DirectoryIterator($root_path) as $file_in_dir) {
 
-            if ( $file_in_dir->isDot() ) {
+            if ($file_in_dir->isDot()) {
                 continue;
 
-            } else if ( $file_in_dir->isDir() ) {
+            } else if ($file_in_dir->isDir()) {
                 $this->includeAllPhpFiles($file_in_dir->getPathName());
 
-            } else if ( $file_in_dir->getExtension() == 'php' ) {
+            } else if ($file_in_dir->getExtension() == 'php') {
                 include_once $file_in_dir->getPathName();
             }
         }
@@ -109,7 +109,7 @@ class RouteParserAnnotation implements RouteParserInterface
 
         $result = array();
         foreach ($declared_classes as $class_name) {
-            if ( !($reflect = new \ReflectionClass($class_name)) ) {
+            if (!($reflect = new \ReflectionClass($class_name))) {
                 continue;
             }
 
@@ -117,7 +117,7 @@ class RouteParserAnnotation implements RouteParserInterface
                 continue;
             }
 
-            if ( !in_array($interface, $reflect->getInterfaceNames()) ) {
+            if (!in_array($interface, $reflect->getInterfaceNames())) {
                 continue;
             }
 
@@ -143,14 +143,14 @@ class RouteParserAnnotation implements RouteParserInterface
     private function extractRoutesFromMethodHeader($method_comment)
     {
         // If the method has a !NoRoute annotation then its marked for being skipped.  Return an empty array.
-        if ( preg_match('/\!NoRoute/i', $method_comment) ) {
+        if (preg_match('/\!NoRoute/i', $method_comment)) {
             return array();
         }
 
         preg_match_all('/  \!HttpRoute  [ \t]+  (?P<request_method>[A-Za-z]+)  [ \t]*  (?P<request_route>[^ ]*)  [ \t]*  $/imx', $method_comment, $regex_routes, PREG_SET_ORDER);
 
         $arr_method_routes = array();
-        if ( !empty($regex_routes) ) {
+        if (!empty($regex_routes)) {
             foreach ($regex_routes as $match) {
                 $arr_method_routes[] = array(
                     'request_method' => $match['request_method'],
@@ -180,15 +180,15 @@ class RouteParserAnnotation implements RouteParserInterface
         // Does the route have wildcards?
         $has_wildcards = (boolean) preg_match('/[#$]{1}([0-9])+/', $route_string);
 
-        if ( substr($route_string, 0, 2) == '//' ) {
+        if (substr($route_string, 0, 2) == '//') {
             // Specific domain, unspecified protocol, absolute path info
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_DOMAIN_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_DOMAIN;
 
-        } else if ( substr($route_string, 0, 1) == '/' ) {
+        } else if (substr($route_string, 0, 1) == '/') {
             // Absolute path, relative to the domain root
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_PATH_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_PATH;
 
-        } else if ( strpos($route_string, '://') !== false ) {
+        } else if (strpos($route_string, '://') !== false) {
             // Specific domain, specific protocol, absolute paths
             $match_path = $has_wildcards ? Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL_WITH_WILDCARDS : Route::ROUTE_TYPE_ABSOLUTE_PROTOCOL;
 

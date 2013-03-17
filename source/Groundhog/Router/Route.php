@@ -185,7 +185,7 @@ class Route
         array_shift($result);
 
         // If the result has content
-        if ( !empty($result) ) {
+        if (!empty($result)) {
             // Create a new array using the route parameter order as the keys and the request values as the values
             $result = array_combine(unserialize($this->parameter_order), array_values($result));
 

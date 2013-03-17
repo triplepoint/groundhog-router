@@ -65,7 +65,7 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
         );
 
         // Remove all the auto-generated routes
-        if ( ! $db->exec("DELETE FROM routing_table;") ) {
+        if (!$db->exec("DELETE FROM routing_table;")) {
             throw new Exception("Trouble truncating routing table: ".$db->lastErrorMsg());
         }
 
@@ -78,7 +78,7 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
                 "' AND route_regex='".$db->escapeString($route->getRouteRegex()).
                 "' AND route_type='".$db->escapeString($route->getRouteType())."';"
             );
-            if ( ($arr_result = $result->fetchArray(SQLITE3_ASSOC))!==false ) {
+            if (($arr_result = $result->fetchArray(SQLITE3_ASSOC))!==false) {
                 throw new Exception(
                     "This handler ({$route->getClassName()}) cannot handle this route ".
                     "({$route->getRouteHttpMethod()} {$route->getRawRouteString()}) because that route's regex ".
@@ -117,7 +117,7 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
 
         // Determine the query
         $where_clause = '';
-        if ( !empty($query_string) ) {
+        if (!empty($query_string)) {
             $where_clause = " WHERE ";
             foreach (explode(' ', $query_string) as $query_fragment) {
                 $where_clause .= "( ";
@@ -134,7 +134,7 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
         // Load all the routing table records
         $result = $db->query($query);
         $routing_table = array();
-        while ( $arr_result = $result->fetchArray(SQLITE3_ASSOC) ) {
+        while ($arr_result = $result->fetchArray(SQLITE3_ASSOC)) {
             $routing_table[] = new Route(
                 $arr_result['route_type'],
                 strtoupper($arr_result['route_http_method']),
@@ -179,18 +179,18 @@ class RoutingTableStoreSqlite implements RoutingTableStoreInterface
         $arr_match = $result->fetchArray(SQLITE3_ASSOC);
 
         // if there was no perfect match, we need to find out if the URL itself was legit, in order to know whether to assemble a 405 response, or a 404 response
-        if ( empty($arr_match) ) {
+        if (empty($arr_match)) {
 
             // Determine if there were any matches at all for this URL, with any HTTP method
             $error_result = $db->query("SELECT route_http_method FROM routing_table WHERE (".implode(' OR ', $arr_route_path_where_clause).");");
 
             // Fetch the set of allowed methods (if any) on this route
             $arr_allowed_methods = array();
-            while ($arr_result = $error_result->fetchArray(SQLITE3_ASSOC) ) {
+            while ($arr_result = $error_result->fetchArray(SQLITE3_ASSOC)) {
                 $arr_allowed_methods[] = $arr_result['route_http_method'];
             }
 
-            if ( !empty($arr_allowed_methods) ) {
+            if (!empty($arr_allowed_methods)) {
                 // If there's a match on this URL, just not for the given HTTP method, return a 405
                 throw new ExceptionMethodNotAllowed($arr_allowed_methods);
 
