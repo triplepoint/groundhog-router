@@ -199,6 +199,3 @@ $route_handler->execute();
 ```
 
 In practice, a lot of the creation and configuration of the various dependencies can be moved into a depdency container, leaving a clean startup in index.php.
-
-## API Documentation
-Automated API documentation is available at [GitApiDoc](http://gitapidoc.com/api/triplepoint/groundhog-router/).
